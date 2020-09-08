@@ -16,6 +16,8 @@ const Avatar = ({
   image,
   onClick = () => {},
   onMouseOver = () => {},
+  addProfileLink,
+  profileId,
 }) => {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
@@ -43,22 +45,47 @@ const Avatar = ({
       onMouseOver={onMouseOver}
     >
       {image && !error ? (
-        <img
-          data-testid="avatar-img"
-          src={image}
-          alt={initials}
-          className={`str-chat__avatar-image${
-            loaded ? ' str-chat__avatar-image--loaded' : ''
-          }`}
-          style={{
-            width: size,
-            height: size,
-            flexBasis: size,
-            objectFit: 'cover',
-          }}
-          onLoad={() => setLoaded(true)}
-          onError={() => setError(true)}
-        />
+        addProfileLink && profileId ? (
+          <a
+            href={`/profile/${profileId}`}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            <img
+              data-testid="avatar-img"
+              src={image}
+              alt={initials}
+              className={`str-chat__avatar-image${
+                loaded ? ' str-chat__avatar-image--loaded' : ''
+              }`}
+              style={{
+                width: size,
+                height: size,
+                flexBasis: size,
+                objectFit: 'cover',
+              }}
+              onLoad={() => setLoaded(true)}
+              onError={() => setError(true)}
+            />
+          </a>
+        ) : (
+          <img
+            data-testid="avatar-img"
+            src={image}
+            alt={initials}
+            className={`str-chat__avatar-image${
+              loaded ? ' str-chat__avatar-image--loaded' : ''
+            }`}
+            style={{
+              width: size,
+              height: size,
+              flexBasis: size,
+              objectFit: 'cover',
+            }}
+            onLoad={() => setLoaded(true)}
+            onError={() => setError(true)}
+          />
+        )
       ) : (
         <div
           data-testid="avatar-fallback"

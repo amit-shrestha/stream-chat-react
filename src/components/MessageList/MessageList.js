@@ -32,6 +32,7 @@ class MessageList extends PureComponent {
     this.state = {
       newMessagesNotification: false,
       notifications: [],
+      customNotifications: [],
     };
 
     this.bottomRef = React.createRef();
@@ -121,6 +122,14 @@ class MessageList extends PureComponent {
     if (hasNewMessage && !this.state.newMessagesNotification) {
       this.setState({ newMessagesNotification: true });
     }
+
+    if (
+      currentLastMessage.silent &&
+      currentLastMessage.text &&
+      Math.abs(new Date() - new Date(currentLastMessage.created_at)) < 15000
+    ) {
+      this.addCustomNotification(currentLastMessage, 'success');
+    }
   }
 
   scrollToBottom = () => {
@@ -203,6 +212,36 @@ class MessageList extends PureComponent {
     this.notificationTimeouts.push(ct);
   };
 
+  addCustomNotification = (notificationObj, type) => {
+    if (typeof notificationObj.text !== 'string') return;
+    if (type !== 'success' && type !== 'error') return;
+
+    const id = `custom-${notificationObj.id}`;
+    if (
+      !this.state.customNotifications.some(
+        (notification) => notification.id === id,
+      )
+    ) {
+      this.setState(({ customNotifications }) => ({
+        customNotifications: [
+          ...customNotifications,
+          { id, text: notificationObj.text, type },
+        ],
+      }));
+
+      // remove the notification after 5000 ms
+      const ct = setTimeout(
+        () =>
+          this.setState(({ customNotifications }) => ({
+            customNotifications: customNotifications.filter((n) => n.id !== id),
+          })),
+        5000,
+      );
+
+      this.notificationTimeouts.push(ct);
+    }
+  };
+
   onMessageLoadCaptured = () => {
     // A load event (emitted by e.g. an <img>) was captured on a message.
     // In some cases, the loaded asset is larger than the placeholder, which means we have to scroll down.
@@ -259,6 +298,7 @@ class MessageList extends PureComponent {
               channel: this.props.channel,
               retrySendMessage: this.props.retrySendMessage,
               addNotification: this.addNotification,
+              customNotification: this.addCustomNotification,
               updateMessage: this.props.updateMessage,
               removeMessage: this.props.removeMessage,
               Message: this.props.Message,
@@ -301,6 +341,17 @@ class MessageList extends PureComponent {
           >
             {t('New Messages!')}
           </MessageNotification>
+        </div>
+        <div className="str-chat__list-notifications">
+          {this.state.customNotifications.map((notification) => (
+            <CustomNotification
+              active={true}
+              key={notification.id}
+              type={notification.type}
+            >
+              {notification.text}
+            </CustomNotification>
+          ))}
         </div>
       </React.Fragment>
     );

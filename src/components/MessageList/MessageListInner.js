@@ -179,6 +179,15 @@ const MessageListInner = (props) => {
 
   const enrichedMessages = useMemo(() => {
     const messageWithDates = insertDates(messages);
+    const lastMessage = messageWithDates[messageWithDates.length - 1];
+
+    if (
+      lastMessage.silent &&
+      lastMessage.text &&
+      Math.abs(new Date() - new Date(lastMessage.created_at)) < 15000
+    ) {
+      internalMessageProps.customNotification(lastMessage, 'success');
+    }
     // messageWithDates.sort((a, b) => a.created_at - b.created_at); // TODO: remove if no issue came up
     if (HeaderComponent) return insertIntro(messageWithDates, headerPosition);
     return messageWithDates;

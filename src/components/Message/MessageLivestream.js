@@ -204,6 +204,8 @@ const MessageLivestreamComponent = (props) => {
             size={30}
             onClick={onUserClick}
             onMouseOver={onUserHover}
+            addProfileLink={true}
+            profileId={message?.user?.id}
           />
         </div>
         <div className="str-chat__message-livestream-right">
