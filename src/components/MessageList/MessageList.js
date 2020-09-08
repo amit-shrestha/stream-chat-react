@@ -263,7 +263,7 @@ class MessageList extends PureComponent {
         <div
           className={`str-chat__list ${
             this.props.threadList ? 'str-chat__list--thread' : ''
-          }`}
+            }`}
           ref={this.messageList}
         >
           <MessageListInner
@@ -342,7 +342,7 @@ class MessageList extends PureComponent {
             {t('New Messages!')}
           </MessageNotification>
         </div>
-        <div className="str-chat__list-notifications">
+        <div className="str-chat__list-notifications custom">
           {this.state.customNotifications.map((notification) => (
             <CustomNotification
               active={true}
