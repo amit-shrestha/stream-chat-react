@@ -14,8 +14,8 @@ const Avatar = ({
   name,
   shape = 'circle',
   image,
-  onClick = () => {},
-  onMouseOver = () => {},
+  onClick = () => { },
+  onMouseOver = () => { },
   addProfileLink,
   profileId,
 }) => {
@@ -55,9 +55,8 @@ const Avatar = ({
               data-testid="avatar-img"
               src={image}
               alt={initials}
-              className={`str-chat__avatar-image${
-                loaded ? ' str-chat__avatar-image--loaded' : ''
-              }`}
+              className={`str-chat__avatar-image${loaded ? ' str-chat__avatar-image--loaded' : ''
+                }`}
               style={{
                 width: size,
                 height: size,
@@ -69,31 +68,44 @@ const Avatar = ({
             />
           </a>
         ) : (
-          <img
-            data-testid="avatar-img"
-            src={image}
-            alt={initials}
-            className={`str-chat__avatar-image${
-              loaded ? ' str-chat__avatar-image--loaded' : ''
-            }`}
-            style={{
-              width: size,
-              height: size,
-              flexBasis: size,
-              objectFit: 'cover',
-            }}
-            onLoad={() => setLoaded(true)}
-            onError={() => setError(true)}
-          />
-        )
+            <img
+              data-testid="avatar-img"
+              src={image}
+              alt={initials}
+              className={`str-chat__avatar-image${loaded ? ' str-chat__avatar-image--loaded' : ''
+                }`}
+              style={{
+                width: size,
+                height: size,
+                flexBasis: size,
+                objectFit: 'cover',
+              }}
+              onLoad={() => setLoaded(true)}
+              onError={() => setError(true)}
+            />
+          )
       ) : (
-        <div
-          data-testid="avatar-fallback"
-          className="str-chat__avatar-fallback"
-        >
-          {initials}
-        </div>
-      )}
+          addProfileLink && profileId ? (
+            <a
+              href={`/profile/${profileId}`}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <div
+                data-testid="avatar-fallback"
+                className="str-chat__avatar-fallback"
+              >
+                {initials}
+              </div>
+            </a>
+          )
+            : (<div
+              data-testid="avatar-fallback"
+              className="str-chat__avatar-fallback"
+            >
+              {initials}
+            </div>)
+        )}
     </div>
   );
 };
@@ -110,7 +122,7 @@ Avatar.propTypes = {
   /** click event handler */
   onClick: PropTypes.func,
   /** mouseOver event handler */
-  onMouseOver: PropTypes.func,
+  onMouseOver: PropTypes.func
 };
 
 export default Avatar;
