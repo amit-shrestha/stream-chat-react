@@ -123,7 +123,8 @@ class MessageList extends PureComponent {
       this.setState({ newMessagesNotification: true });
     }
 
-    if (currentLastMessage &&
+    if (
+      currentLastMessage &&
       currentLastMessage.silent &&
       currentLastMessage.text &&
       Math.abs(new Date() - new Date(currentLastMessage.created_at)) < 15000
@@ -263,7 +264,7 @@ class MessageList extends PureComponent {
         <div
           className={`str-chat__list ${
             this.props.threadList ? 'str-chat__list--thread' : ''
-            }`}
+          }`}
           ref={this.messageList}
         >
           <MessageListInner

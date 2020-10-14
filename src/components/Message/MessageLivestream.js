@@ -150,6 +150,8 @@ const MessageLivestreamComponent = (props) => {
               size={40}
               onClick={onUserClick}
               onMouseOver={onUserHover}
+              addProfileLink={true}
+              profileId={message?.user?.id}
             />
           </div>
         )}

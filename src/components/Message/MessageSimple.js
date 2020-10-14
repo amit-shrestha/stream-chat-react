@@ -137,6 +137,8 @@ const MessageSimple = (props) => {
               name={message.user.name || message.user.id}
               onClick={onUserClick}
               onMouseOver={onUserHover}
+              addProfileLink={true}
+              profileId={message?.user?.id}
             />
           )}
           <div

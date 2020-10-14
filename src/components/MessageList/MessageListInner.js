@@ -181,7 +181,8 @@ const MessageListInner = (props) => {
     const messageWithDates = insertDates(messages);
     const lastMessage = messageWithDates[messageWithDates.length - 1];
 
-    if (lastMessage &&
+    if (
+      lastMessage &&
       lastMessage.silent &&
       lastMessage.text &&
       Math.abs(new Date() - new Date(lastMessage.created_at)) < 15000
